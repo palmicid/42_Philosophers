@@ -1,32 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   routine_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 22:37:41 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 03:00:52 by pruangde         ###   ########.fr       */
+/*   Created: 2023/02/26 18:09:23 by pruangde          #+#    #+#             */
+/*   Updated: 2023/02/26 18:09:42 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	assign_fork(t_data *philo, t_time_lim *timebox)
-{
-	philo->num_r = philo->id - 1;
-	if (philo->id == timebox->no_ph)
-		philo->num_l = 0;
-	else
-		philo->num_l = philo->id;
-}
-
-long	addtag_philo(int id, int max)
-{
-	if ((id % 2) == 0)
-		return (2);
-	else if (id == max)
-		return (3);
-	else
-		return (1);
-}

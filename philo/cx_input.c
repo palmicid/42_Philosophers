@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:24:18 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/17 23:40:46 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/26 05:14:54 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	cx_data(int ac, char **av, t_time_lim *timebox)
 	if (!cx_number(av))
 		return (0);
 	timebox->no_ph = atoi_philo(av[1]);
-	timebox->die = atoi_philo(av[2]);
-	timebox->eat = atoi_philo(av[3]);
-	timebox->slp = atoi_philo(av[4]);
+	timebox->die = atoi_philo(av[2]) * 1000;
+	timebox->eat = atoi_philo(av[3]) * 1000;
+	timebox->slp = atoi_philo(av[4]) * 1000;
 	if (ac == 6)
 		timebox->no_eat = atoi_philo(av[5]);
 	else

@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:06:44 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/18 17:39:51 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:54:27 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 {
 	int	i;
-	unsigned long	st_time;
+	long	st_time;
 
 	i = 0;
-	st_time = get_time() + 1000;
+	st_time = get_utime() + (100 * 1000);
 	while (i < timebox->no_ph)
 	{
 		philo[i].id = i + 1;
@@ -30,6 +30,7 @@ void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 		philo[i].timelimit = timebox;
 		philo[i].timestart = st_time;
 		philo[i].timedie = 0;
+		philo[i].tag = addtag_philo(philo[i].id, timebox->no_ph);
 		i++;
 	}
 }
@@ -55,6 +56,7 @@ t_forkinfo	*create_fork(t_forkinfo *fork, t_time_lim *timebox)
 		* timebox->no_ph);
 	if (!fork->fmutex)
 		return (NULL);
+	pthread_mutex_init(&(fork->writing), NULL);
 	while (i < timebox->no_ph)
 	{
 		if (pthread_mutex_init(&(fork->fmutex[i]), NULL) != 0)
@@ -79,6 +81,7 @@ t_forkinfo	*destroy_fork(t_forkinfo *fork, t_time_lim *timebox)
 		pthread_mutex_destroy(&(fork->fmutex[i]));
 		i++;
 	}
+	pthread_mutex_destroy(&(fork->writing));
 	free(fork->fmutex);
 	free(fork);
 	return (NULL);

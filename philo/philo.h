@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:23:59 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/18 16:18:51 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/26 21:46:56 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@
 typedef struct s_time_lim
 {
 	int				no_ph;		// no. of philo
-	unsigned long	die;		// time to die
-	unsigned long	eat;		// time to eat
-	unsigned long	slp;		// time to sleep
+	long			die;		// time to die
+	long			eat;		// time to eat
+	long			slp;		// time to sleep
 	int				no_eat;		// no. time philo must eat
 }					t_time_lim;
 
 typedef struct s_forkinfo
 {
 	pthread_mutex_t	*fmutex;
-	//pthread_mutex_t diemutex;
+	pthread_mutex_t writing;
 	int				die_stat;	// 1 == alive , 0 == die
 }		t_forkinfo;
 
@@ -46,8 +46,9 @@ typedef struct s_data
 	int				no_ate;
 	t_forkinfo		*fork;
 	t_time_lim		*timelimit;
-	unsigned long	timestart;
-	unsigned long	timedie;
+	long			timestart;
+	long			timedie;
+	long			tag;
 	
 }					t_data;
 
@@ -70,13 +71,25 @@ t_data			*destroy_philo(t_data *philo, t_time_lim *timebox);
 
 // routine_1
 void			*routine(t_data *phi);
+int				pick_fork_eat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
+int				pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
+int				philo_sleep_think(t_data *phi, t_time_lim *tcond);
+int				pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
+
+// routine_2
+int				cx_death(int stat);
+int				cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
+int				cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp);
+void			philo_wait(t_data *phi);
+void			printing(t_data *phi, char *str, int killmode);
 
 
 // time.c
-unsigned long	get_time(void);
+long			get_utime(void);
+void			my_usleep(long usec);
 
 // utils_1
 void			assign_fork(t_data *philo, t_time_lim *timebox);
-
+long			addtag_philo(int id, int max);
 
 #endif
