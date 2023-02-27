@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 22:37:41 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 03:00:52 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:11:13 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ long	addtag_philo(int id, int max)
 {
 	if ((id % 2) == 0)
 		return (2);
-	else if (id == max)
+	else if (id == max && (id != 1))
 		return (3);
 	else
 		return (1);
 }
+
+

@@ -6,7 +6,7 @@
 #    By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/17 12:37:19 by pruangde          #+#    #+#              #
-#    Updated: 2023/02/14 17:31:36 by pruangde         ###   ########.fr        #
+#    Updated: 2023/02/27 16:07:01 by pruangde         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ADDITIONAL = -g -pthread
 RM = rm -rf
 NAME = philo
 
-SRCS = philo.c cx_input.c routine_1.c time.c
+SRCS = philo.c cx_input.c init_data.c routine_1.c routine_2.c routine_3.c time.c utils_1.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean fclean re bonus norm

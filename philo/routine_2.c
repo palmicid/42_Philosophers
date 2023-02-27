@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:37:04 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 22:03:50 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:32:38 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	cx_death(int stat)
 
 int	cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 {
-	if (phi->timedie < (get_utime() + tcond->die))
+	long	willdie;
+
+	willdie = get_utime() + tcond->eat;
+	if (phi->timedie < willdie)
 	{
 		my_usleep(phi->timedie - get_utime());
 		printing(phi, "died", 1);
@@ -38,7 +41,10 @@ int	cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 
 int	cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp)
 {
-	if (phi->timedie < (get_utime() + tslp))
+	long	willdie;
+
+	willdie = get_utime() + tslp;
+	if (phi->timedie < willdie)
 	{
 		my_usleep(phi->timedie - get_utime());
 		printing(phi, "died", 1);
@@ -49,23 +55,35 @@ int	cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp)
 	return (0);
 }
 
-void	philo_wait(t_data *phi)
+void	philo_wait(t_data *phi, t_forkinfo *fork)
 {
 	if (phi->tag == 2)
 		my_usleep(phi->timelimit->eat * 1);
 	else if (phi->tag == 3)
 		my_usleep(phi->timelimit->eat * 1.5);
+	else if (phi->num_l == phi->num_r)
+	{
+		pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
+		printing(phi, "has taken a fork", 0);
+		my_usleep(phi->timedie - get_utime());
+		printing(phi, "died", 1);
+	}
 }
 
 // time /1000 for ms, killmode 1 = on 0 = off
-void	printing(t_data *phi, char *str, int killmode)
+int	printing(t_data *phi, char *str, int killmode)
 {
 	pthread_mutex_lock(&(phi->fork->writing));
 	if (phi->fork->die_stat)
-		return ;
+		return (1);
 	printf("%ld %d %s\n", (get_utime() - phi->timestart) / 1000, phi->id, str);
-	phi->fork->die_stat = killmode;
+	if (killmode == 1)
+		phi->fork->die_stat = killmode;
 	pthread_mutex_unlock(&(phi->fork->writing));
+	if (phi->fork->die_stat == 1)
+		return (1);
+	else
+		return (0);
 }
 
 

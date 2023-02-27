@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:23:59 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 21:46:56 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:02:34 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct s_forkinfo
 {
 	pthread_mutex_t	*fmutex;
 	pthread_mutex_t writing;
-	int				die_stat;	// 1 == alive , 0 == die
-}		t_forkinfo;
+	int				die_stat;
+}					t_forkinfo;
 
 typedef struct s_data
 {
@@ -80,9 +80,11 @@ int				pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
 int				cx_death(int stat);
 int				cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
 int				cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp);
-void			philo_wait(t_data *phi);
-void			printing(t_data *phi, char *str, int killmode);
+void			philo_wait(t_data *phi, t_forkinfo *fork);
+int				printing(t_data *phi, char *str, int killmode);
 
+// routine_3
+void	fork_down(t_data *phi, t_forkinfo *fork);
 
 // time.c
 long			get_utime(void);

@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:06:44 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 21:54:27 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:28:42 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 	long	st_time;
 
 	i = 0;
-	st_time = get_utime() + (100 * 1000);
+	st_time = get_utime();
 	while (i < timebox->no_ph)
 	{
 		philo[i].id = i + 1;
@@ -67,7 +67,7 @@ t_forkinfo	*create_fork(t_forkinfo *fork, t_time_lim *timebox)
 		}
 		i++;
 	}
-	fork->die_stat = 1;
+	fork->die_stat = 0;
 	return (fork);
 }
 

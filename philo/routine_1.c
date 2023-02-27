@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 22:13:37 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:13:07 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ void	*routine(t_data *phi)
 	fork = phi->fork;
 
 	phi->timedie = phi->timestart + tcond->die;
-	while(get_utime() < phi->timestart)
-		;
-	philo_wait(phi);
-	while ((phi->no_ate != phi->timelimit->no_eat))
+	philo_wait(phi, fork);
+	while ((phi->no_ate != phi->timelimit->no_eat) && !(fork->die_stat))
 	{
 		if (pick_fork_eat(phi, tcond, fork))
 			break;
 		if (philo_sleep_think(phi, tcond))
 			break ;
 	}
+	fork_down(phi, fork);
 	return (NULL);
 }
 
@@ -47,18 +46,21 @@ int	pick_fork_eat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 int	pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 {
 	pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
-	printf("BUG-0000  %d\n", phi->id);
-	printing(phi, "has taken a fork", 0);
+	if (printing(phi, "has taken a fork", 0))
+		return (1);
 	phi->left_stat = 1;
 	pthread_mutex_lock(&(fork->fmutex[phi->num_l]));
-	printing(phi, "has taken a fork", 0);
+	if (printing(phi, "has taken a fork", 0))
+		return (1);
 	phi->right_stat = 1;
-	phi->timedie += tcond->die;
 	if (cal_upickeat(phi, tcond, fork))
 		return (1);
-	pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
+	if (printing(phi, "is eating", 0))
+		return (1);
+	phi->timedie += tcond->die;
+	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
 	phi->right_stat = 0;
-	pthread_mutex_lock(&(fork->fmutex[phi->num_l]));
+	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
 	phi->left_stat = 0;
 	phi->no_ate++;
 	return (0);
@@ -66,9 +68,11 @@ int	pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 
 int	philo_sleep_think(t_data *phi, t_time_lim *tcond)
 {
-	printing(phi, "is sleeping", 0);
+	if (printing(phi, "is sleeping", 0))
+		return (1);
 	cal_usleepthink(phi, tcond, tcond->slp);
-	printing(phi, "is thinking", 0);
+	if (printing(phi, "is thinking", 0))
+		return (1);
 	return (0);
 }
 
@@ -76,18 +80,21 @@ int	philo_sleep_think(t_data *phi, t_time_lim *tcond)
 int	pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 {
 	pthread_mutex_lock(&(fork->fmutex[phi->num_l]));
-	printf("BUG-1000  %d\n", phi->id);
-	printing(phi, "has taken a fork", 0);
+	if (printing(phi, "has taken a fork", 0))
+		return (1);
 	phi->right_stat = 1;
 	pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
-	printing(phi, "has taken a fork", 0);
+	if (printing(phi, "has taken a fork", 0))
+		return (1);
 	phi->left_stat = 1;
-	phi->timedie += tcond->die;
 	if (cal_upickeat(phi, tcond, fork))
 		return (1);
-	pthread_mutex_lock(&(fork->fmutex[phi->num_l]));
+	if (printing(phi, "is eating", 0))
+		return (1);
+	phi->timedie += tcond->die;
+	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
 	phi->left_stat = 0;
-	pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
+	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
 	phi->right_stat = 0;
 	phi->no_ate++;
 	return (0);
