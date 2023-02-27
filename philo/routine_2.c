@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:37:04 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 19:32:38 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 21:42:15 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ int	cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 
 int	cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp)
 {
-	long	willdie;
+	long	wakeup;
 
-	willdie = get_utime() + tslp;
-	if (phi->timedie < willdie)
+	wakeup = get_utime() + tslp;
+	if (phi->timedie < wakeup)
 	{
+		printf("phidie = %ld\nphiwak = %ld\n", phi->timedie, wakeup);
+		printf("sleep  = %ld\n", tcond->slp);
 		my_usleep(phi->timedie - get_utime());
 		printing(phi, "died", 1);
 		return (1);
@@ -75,7 +77,10 @@ int	printing(t_data *phi, char *str, int killmode)
 {
 	pthread_mutex_lock(&(phi->fork->writing));
 	if (phi->fork->die_stat)
+	{
+		pthread_mutex_unlock(&(phi->fork->writing));
 		return (1);
+	}
 	printf("%ld %d %s\n", (get_utime() - phi->timestart) / 1000, phi->id, str);
 	if (killmode == 1)
 		phi->fork->die_stat = killmode;

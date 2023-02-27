@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 19:13:07 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/27 21:42:42 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 	if (printing(phi, "has taken a fork", 0))
 		return (1);
 	phi->right_stat = 1;
-	if (cal_upickeat(phi, tcond, fork))
-		return (1);
 	if (printing(phi, "is eating", 0))
 		return (1);
 	phi->timedie += tcond->die;
+	if (cal_upickeat(phi, tcond, fork))
+		return (1);
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
 	phi->right_stat = 0;
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
@@ -87,11 +87,11 @@ int	pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 	if (printing(phi, "has taken a fork", 0))
 		return (1);
 	phi->left_stat = 1;
-	if (cal_upickeat(phi, tcond, fork))
-		return (1);
 	if (printing(phi, "is eating", 0))
 		return (1);
 	phi->timedie += tcond->die;
+	if (cal_upickeat(phi, tcond, fork))
+		return (1);
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
 	phi->left_stat = 0;
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
