@@ -6,11 +6,33 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:43:31 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/22 14:30:49 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:26:41 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	cx_dead_philo(t_data *philo, t_time_lim *tcond)
+{
+	t_forkinfo	*fork;
+	int			i;
+
+	fork = philo[0].fork;
+	my_usleep(tcond->die / 2);
+	while (fork->die_stat == 0)
+	{
+		i = 0;
+		while (i < tcond->no_ph)
+		{
+			if ((philo[i].timedie + 10000) < get_utime())
+			{
+				printing(&philo[i], "died", 1);
+				break ;
+			}
+			i++;
+		}
+	}
+}
 
 int	create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox)
 {
@@ -26,6 +48,7 @@ int	create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox)
 		}
 		i++;
 	}
+	cx_dead_philo(philo, timebox);
 	return (0);
 }
 

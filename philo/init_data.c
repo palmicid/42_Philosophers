@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:06:44 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 10:28:42 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/01 04:35:39 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 {
-	int	i;
+	int		i;
 	long	st_time;
 
 	i = 0;
-	st_time = get_utime();
+
 	while (i < timebox->no_ph)
 	{
 		philo[i].id = i + 1;
@@ -28,7 +28,7 @@ void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 		philo[i].no_ate = 0;
 		philo[i].fork = fork;
 		philo[i].timelimit = timebox;
-		philo[i].timestart = st_time;
+		philo[i].timestart = 0;
 		philo[i].timedie = 0;
 		philo[i].tag = addtag_philo(philo[i].id, timebox->no_ph);
 		i++;

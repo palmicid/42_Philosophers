@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:23:59 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 19:02:34 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:47:17 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ typedef struct s_data
 }					t_data;
 
 // philo
-t_data		*process(t_data *philo, t_time_lim *timebox);
+void			cx_daed_philo(t_data *philo, t_time_lim *tcond);
+int				create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox);
+t_data			*process(t_data *philo, t_time_lim *timebox);
+void			sub_main(int ac, char **av, t_time_lim *timebox);
 
 // cx_input
 int				cx_number(char **av);
@@ -84,7 +87,7 @@ void			philo_wait(t_data *phi, t_forkinfo *fork);
 int				printing(t_data *phi, char *str, int killmode);
 
 // routine_3
-void	fork_down(t_data *phi, t_forkinfo *fork);
+void			fork_down(t_data *phi, t_forkinfo *fork);
 
 // time.c
 long			get_utime(void);

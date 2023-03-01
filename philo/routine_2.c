@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:37:04 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 21:42:15 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/02/28 19:38:11 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp)
 	wakeup = get_utime() + tslp;
 	if (phi->timedie < wakeup)
 	{
-		printf("phidie = %ld\nphiwak = %ld\n", phi->timedie, wakeup);
-		printf("sleep  = %ld\n", tcond->slp);
 		my_usleep(phi->timedie - get_utime());
 		printing(phi, "died", 1);
 		return (1);

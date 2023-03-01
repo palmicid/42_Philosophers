@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 21:42:42 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:38:03 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*routine(t_data *phi)
 	tcond = phi->timelimit;
 	fork = phi->fork;
 
+	phi->timestart = get_utime();
 	phi->timedie = phi->timestart + tcond->die;
 	philo_wait(phi, fork);
 	while ((phi->no_ate != phi->timelimit->no_eat) && !(fork->die_stat))
@@ -55,7 +56,7 @@ int	pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 	phi->right_stat = 1;
 	if (printing(phi, "is eating", 0))
 		return (1);
-	phi->timedie += tcond->die;
+	phi->timedie = get_utime() + tcond->die;
 	if (cal_upickeat(phi, tcond, fork))
 		return (1);
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
@@ -73,6 +74,7 @@ int	philo_sleep_think(t_data *phi, t_time_lim *tcond)
 	cal_usleepthink(phi, tcond, tcond->slp);
 	if (printing(phi, "is thinking", 0))
 		return (1);
+	// 
 	return (0);
 }
 
@@ -89,7 +91,7 @@ int	pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 	phi->left_stat = 1;
 	if (printing(phi, "is eating", 0))
 		return (1);
-	phi->timedie += tcond->die;
+	phi->timedie = get_utime() + tcond->die;
 	if (cal_upickeat(phi, tcond, fork))
 		return (1);
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
