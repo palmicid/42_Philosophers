@@ -6,52 +6,15 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:37:04 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/28 19:38:11 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/03 05:57:26 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	cx_death(int stat)
-{
-	if (stat)
-		return (1);
-	return (0);
-}
-
 int	cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 {
-	long	willdie;
-
-	willdie = get_utime() + tcond->eat;
-	if (phi->timedie < willdie)
-	{
-		my_usleep(phi->timedie - get_utime());
-		printing(phi, "died", 1);
-		if (phi->right_stat == 1)
-			pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
-		if (phi->left_stat == 1)
-			pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
-		return (1);
-	}
-	else
-		my_usleep(tcond->eat);
-	return (0);
-}
-
-int	cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp)
-{
-	long	wakeup;
-
-	wakeup = get_utime() + tslp;
-	if (phi->timedie < wakeup)
-	{
-		my_usleep(phi->timedie - get_utime());
-		printing(phi, "died", 1);
-		return (1);
-	}
-	else
-		my_usleep(tslp);
+	my_usleep(tcond->eat);
 	return (0);
 }
 
@@ -60,14 +23,7 @@ void	philo_wait(t_data *phi, t_forkinfo *fork)
 	if (phi->tag == 2)
 		my_usleep(phi->timelimit->eat * 1);
 	else if (phi->tag == 3)
-		my_usleep(phi->timelimit->eat * 1.5);
-	else if (phi->num_l == phi->num_r)
-	{
-		pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
-		printing(phi, "has taken a fork", 0);
-		my_usleep(phi->timedie - get_utime());
-		printing(phi, "died", 1);
-	}
+		my_usleep(phi->timelimit->eat * 1);
 }
 
 // time /1000 for ms, killmode 1 = on 0 = off

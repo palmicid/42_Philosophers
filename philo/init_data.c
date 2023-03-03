@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:06:44 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/01 04:35:39 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/02 23:28:53 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_forkinfo	*create_fork(t_forkinfo *fork, t_time_lim *timebox)
 	if (!fork->fmutex)
 		return (NULL);
 	pthread_mutex_init(&(fork->writing), NULL);
+	pthread_mutex_init(&(fork->lock), NULL);
 	while (i < timebox->no_ph)
 	{
 		if (pthread_mutex_init(&(fork->fmutex[i]), NULL) != 0)
@@ -82,6 +83,7 @@ t_forkinfo	*destroy_fork(t_forkinfo *fork, t_time_lim *timebox)
 		i++;
 	}
 	pthread_mutex_destroy(&(fork->writing));
+	pthread_mutex_destroy(&(fork->lock));
 	free(fork->fmutex);
 	free(fork);
 	return (NULL);

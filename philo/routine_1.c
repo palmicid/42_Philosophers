@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/01 18:38:03 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/03 17:55:55 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ void	*routine(t_data *phi)
 	{
 		if (pick_fork_eat(phi, tcond, fork))
 			break;
-		if (philo_sleep_think(phi, tcond))
-			break ;
+		printing(phi, "\033[0;34mis sleeping\033[0m", 0);
+		my_usleep(tcond->slp);
+		printing(phi, "\033[0;33mis thinking\033[0m", 0);
+		usleep(100);
 	}
 	fork_down(phi, fork);
 	return (NULL);
@@ -47,34 +49,19 @@ int	pick_fork_eat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 int	pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 {
 	pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
-	if (printing(phi, "has taken a fork", 0))
-		return (1);
-	phi->left_stat = 1;
+	printing(phi, "\033[0;35mhas taken a fork\033[0m", 0);
 	pthread_mutex_lock(&(fork->fmutex[phi->num_l]));
-	if (printing(phi, "has taken a fork", 0))
-		return (1);
+	pthread_mutex_lock(&(fork->lock));
+	printing(phi, "\033[0;35mhas taken a fork\033[0m", 0);
 	phi->right_stat = 1;
-	if (printing(phi, "is eating", 0))
+	if (printing(phi, "\033[0;32mis eating\033[0m", 0))
 		return (1);
 	phi->timedie = get_utime() + tcond->die;
-	if (cal_upickeat(phi, tcond, fork))
-		return (1);
+	pthread_mutex_unlock(&(fork->lock));
+	my_usleep(tcond->eat);
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
-	phi->right_stat = 0;
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
-	phi->left_stat = 0;
 	phi->no_ate++;
-	return (0);
-}
-
-int	philo_sleep_think(t_data *phi, t_time_lim *tcond)
-{
-	if (printing(phi, "is sleeping", 0))
-		return (1);
-	cal_usleepthink(phi, tcond, tcond->slp);
-	if (printing(phi, "is thinking", 0))
-		return (1);
-	// 
 	return (0);
 }
 
@@ -82,22 +69,17 @@ int	philo_sleep_think(t_data *phi, t_time_lim *tcond)
 int	pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork)
 {
 	pthread_mutex_lock(&(fork->fmutex[phi->num_l]));
-	if (printing(phi, "has taken a fork", 0))
-		return (1);
-	phi->right_stat = 1;
+	printing(phi, "\033[0;35mhas taken a fork\033[0m", 0);
 	pthread_mutex_lock(&(fork->fmutex[phi->num_r]));
-	if (printing(phi, "has taken a fork", 0))
-		return (1);
+	pthread_mutex_lock(&(fork->lock));
+	printing(phi, "\033[0;35mhas taken a fork\033[0m", 0);
 	phi->left_stat = 1;
-	if (printing(phi, "is eating", 0))
-		return (1);
+	printing(phi, "\033[0;32mis eating\033[0m", 0);
 	phi->timedie = get_utime() + tcond->die;
-	if (cal_upickeat(phi, tcond, fork))
-		return (1);
+	pthread_mutex_unlock(&(fork->lock));
+	my_usleep(tcond->eat);
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
-	phi->left_stat = 0;
 	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
-	phi->right_stat = 0;
 	phi->no_ate++;
 	return (0);
 }

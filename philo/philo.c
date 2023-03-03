@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:43:31 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/01 21:26:41 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/03 17:59:23 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	cx_dead_philo(t_data *philo, t_time_lim *tcond)
 {
 	t_forkinfo	*fork;
 	int			i;
+	long		tmp;
 
 	fork = philo[0].fork;
 	my_usleep(tcond->die / 2);
@@ -24,14 +25,24 @@ void	cx_dead_philo(t_data *philo, t_time_lim *tcond)
 		i = 0;
 		while (i < tcond->no_ph)
 		{
-			if ((philo[i].timedie + 10000) < get_utime())
+			usleep(500);
+			pthread_mutex_lock(&(fork->lock));
+			if ((philo[i].timedie) <= get_utime())
 			{
-				printing(&philo[i], "died", 1);
-				break ;
+				if (philo[i].no_ate != tcond->no_eat)
+				{
+					printing(&philo[i], "\033[0;31mdied\033[0m", 1);
+					fork_down(&philo[i], fork);
+					pthread_mutex_unlock(&(fork->lock));
+					break ;
+				}
 			}
+			pthread_mutex_unlock(&(fork->lock));
 			i++;
 		}
+
 	}
+	
 }
 
 int	create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox)

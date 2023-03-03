@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:23:59 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/01 18:47:17 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/03 05:37:35 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_forkinfo
 {
 	pthread_mutex_t	*fmutex;
 	pthread_mutex_t writing;
+	pthread_mutex_t lock;
 	int				die_stat;
 }					t_forkinfo;
 
@@ -76,13 +77,9 @@ t_data			*destroy_philo(t_data *philo, t_time_lim *timebox);
 void			*routine(t_data *phi);
 int				pick_fork_eat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
 int				pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
-int				philo_sleep_think(t_data *phi, t_time_lim *tcond);
 int				pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
 
 // routine_2
-int				cx_death(int stat);
-int				cal_upickeat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
-int				cal_usleepthink(t_data *phi, t_time_lim *tcond, long tslp);
 void			philo_wait(t_data *phi, t_forkinfo *fork);
 int				printing(t_data *phi, char *str, int killmode);
 
