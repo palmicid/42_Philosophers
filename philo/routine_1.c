@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/03 17:55:55 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/03 19:49:40 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*routine(t_data *phi)
 		printing(phi, "\033[0;34mis sleeping\033[0m", 0);
 		my_usleep(tcond->slp);
 		printing(phi, "\033[0;33mis thinking\033[0m", 0);
-		usleep(100);
+		//usleep(50);
 	}
 	fork_down(phi, fork);
 	return (NULL);
