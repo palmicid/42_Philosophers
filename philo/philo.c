@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:43:31 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 15:29:58 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:43:31 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,11 @@ t_data	*process(t_data *philo, t_tlim *timebox)
 
 void	sub_main(int ac, char **av, t_tlim *timebox)
 {
-	t_finfo	*fork = NULL;
-	t_data	*group_philo = NULL;
+	t_finfo	*fork;
+	t_data	*group_philo;
 
+	fork = NULL;
+	group_philo = NULL;
 	if (cx_data(ac, av, timebox))
 	{
 		fork = create_fork(fork, timebox);

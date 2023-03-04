@@ -6,22 +6,24 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 15:13:43 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:56:15 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*routine(t_data *phi)
+void	*routine(void *philo)
 {
 	t_tlim	*tcond;
 	t_finfo	*fork;
+	t_data	*phi;
 
+	phi = (t_data *)philo;
 	tcond = phi->timelimit;
 	fork = phi->fork;
 	phi->timestart = get_utime();
 	phi->timeeat = phi->timestart;
-	philo_wait(phi, fork);
+	philo_wait(phi);
 	while ((phi->no_ate != phi->timelimit->no_eat) && !(fork->die_stat))
 	{
 		if (pick_fork_eat(phi, tcond, fork))

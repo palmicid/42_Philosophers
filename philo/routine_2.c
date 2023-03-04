@@ -6,13 +6,13 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:37:04 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 15:11:33 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:38:19 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philo_wait(t_data *phi, t_finfo *fork)
+void	philo_wait(t_data *phi)
 {
 	if (phi->tag == 2 || phi->tag == 3)
 		usleep(phi->timelimit->eat);

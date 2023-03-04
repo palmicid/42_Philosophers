@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:23:59 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 15:16:36 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:38:29 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ t_finfo	*destroy_fork(t_finfo *fork, t_tlim *timebox);
 t_data	*destroy_philo(t_data *philo, t_tlim *timebox);
 
 // routine_1
-void	*routine(t_data *phi);
+void	*routine(void *philo);
 int		pick_fork_eat(t_data *phi, t_tlim *tcond, t_finfo *fork);
 int		pickfork_eat_normal(t_data *phi, t_tlim *tcond, t_finfo *fork);
 int		pickfork_eat_lastodd(t_data *phi, t_tlim *tcond, t_finfo *fork);
 
 // routine_2
-void	philo_wait(t_data *phi, t_finfo *fork);
+void	philo_wait(t_data *phi);
 int		printing(t_data *phi, char *str, int killmode);
 
 // routine_3

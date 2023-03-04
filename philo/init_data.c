@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:06:44 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 15:12:35 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:37:54 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	add_init_data(t_data *philo, t_finfo *fork, t_tlim *timebox)
 {
 	int		i;
-	long	st_time;
 
 	i = 0;
 	while (i < timebox->no_ph)
