@@ -6,13 +6,13 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:06:44 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/02 23:28:53 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:31:48 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
+void	add_init_data(t_data *philo, t_finfo *fork, t_tlim *timebox)
 {
 	int		i;
 	long	st_time;
@@ -22,20 +22,20 @@ void	add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 	while (i < timebox->no_ph)
 	{
 		philo[i].id = i + 1;
-		philo[i].left_stat = 0;
-		philo[i].right_stat = 0;
+		// philo[i].left_stat = 0;
+		// philo[i].right_stat = 0;
 		assign_fork(&philo[i], timebox);
 		philo[i].no_ate = 0;
 		philo[i].fork = fork;
 		philo[i].timelimit = timebox;
 		philo[i].timestart = 0;
-		philo[i].timedie = 0;
+		philo[i].timeeat = 0;
 		philo[i].tag = addtag_philo(philo[i].id, timebox->no_ph);
 		i++;
 	}
 }
 
-t_data	*init_philo(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
+t_data	*init_philo(t_data *philo, t_finfo *fork, t_tlim *timebox)
 {
 	philo = (t_data *)malloc(sizeof(t_data) * timebox->no_ph);
 	if (!philo)
@@ -44,12 +44,12 @@ t_data	*init_philo(t_data *philo, t_forkinfo *fork, t_time_lim *timebox)
 	return (philo);
 }
 
-t_forkinfo	*create_fork(t_forkinfo *fork, t_time_lim *timebox)
+t_finfo	*create_fork(t_finfo *fork, t_tlim *timebox)
 {
 	int	i;
 
 	i = 0;
-	fork = (t_forkinfo *)malloc(sizeof(t_forkinfo));
+	fork = (t_finfo *)malloc(sizeof(t_finfo));
 	if (!fork)
 		return (NULL);
 	fork->fmutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) \
@@ -72,7 +72,7 @@ t_forkinfo	*create_fork(t_forkinfo *fork, t_time_lim *timebox)
 	return (fork);
 }
 
-t_forkinfo	*destroy_fork(t_forkinfo *fork, t_time_lim *timebox)
+t_finfo	*destroy_fork(t_finfo *fork, t_tlim *timebox)
 {
 	int	i;
 
@@ -89,7 +89,7 @@ t_forkinfo	*destroy_fork(t_forkinfo *fork, t_time_lim *timebox)
 	return (NULL);
 }
 
-t_data	*destroy_philo(t_data *philo, t_time_lim *timebox)
+t_data	*destroy_philo(t_data *philo, t_tlim *timebox)
 {
 	int	i;
 

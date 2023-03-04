@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 17:32:22 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 21:44:28 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:26:22 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ long	get_utime(void)
 	return (longtime);
 }
 
-void	my_usleep(long usec)
+void	my_usleep(long usec, long eat)
 {
-	long	present;
+	long	wakeup;
 
-	present = get_utime();
-	while ((get_utime() - present) < usec)
+	wakeup = eat + usec;
+	while (get_utime() <= wakeup)
 		;
 	return ;
 }

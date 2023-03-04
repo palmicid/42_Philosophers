@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:24:18 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/26 05:14:54 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:06:27 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	atoi_philo(char *str)
 	return (num);
 }
 
-int	cx_data(int ac, char **av, t_time_lim *timebox)
+int	cx_data(int ac, char **av, t_tlim *timebox)
 {
 	if (!cx_number(av))
 		return (0);
@@ -66,7 +66,7 @@ int	cx_data(int ac, char **av, t_time_lim *timebox)
 	return (1);
 }
 
-int	cx_zero(t_time_lim *timebox)
+int	cx_zero(t_tlim *timebox)
 {
 	if (!timebox->no_ph)
 		return (1);

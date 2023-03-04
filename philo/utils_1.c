@@ -6,13 +6,13 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 22:37:41 by pruangde          #+#    #+#             */
-/*   Updated: 2023/02/27 19:11:13 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:37:07 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	assign_fork(t_data *philo, t_time_lim *timebox)
+void	assign_fork(t_data *philo, t_tlim *timebox)
 {
 	philo->num_r = philo->id - 1;
 	if (philo->id == timebox->no_ph)
@@ -30,5 +30,3 @@ long	addtag_philo(int id, int max)
 	else
 		return (1);
 }
-
-

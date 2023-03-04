@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:23:59 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/03 05:37:35 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:26:32 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_time_lim
 	long			eat;		// time to eat
 	long			slp;		// time to sleep
 	int				no_eat;		// no. time philo must eat
-}					t_time_lim;
+}					t_tlim	;
 
 typedef struct s_forkinfo
 {
@@ -35,63 +35,63 @@ typedef struct s_forkinfo
 	pthread_mutex_t writing;
 	pthread_mutex_t lock;
 	int				die_stat;
-}					t_forkinfo;
+}					t_finfo;
 
 typedef struct s_data
 {
 	int				id;
-	int				left_stat;		// 0 not hold
-	int				right_stat;		// 1 holding
-	int				num_l;			// fork number to pick up
+	// int				left_stat;
+	// int				right_stat;
+	int				num_l;
 	int				num_r;
 	int				no_ate;
-	t_forkinfo		*fork;
-	t_time_lim		*timelimit;
+	t_finfo			*fork;
+	t_tlim			*timelimit;
 	long			timestart;
-	long			timedie;
+	long			timeeat;
 	long			tag;
 	
 }					t_data;
 
 // philo
-void			cx_daed_philo(t_data *philo, t_time_lim *tcond);
-int				create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox);
-t_data			*process(t_data *philo, t_time_lim *timebox);
-void			sub_main(int ac, char **av, t_time_lim *timebox);
+void	cx_daed_philo(t_data *philo, t_tlim	 *tcond);
+int		create_thread(pthread_t *phi_th, t_data *philo, t_tlim	 *timebox);
+t_data	*process(t_data *philo, t_tlim	 *timebox);
+void	sub_main(int ac, char **av, t_tlim	 *timebox);
 
 // cx_input
-int				cx_number(char **av);
-int				atoi_philo(char *str);
-int				cx_data(int ac, char **av, t_time_lim *timebox);
-int				cx_zero(t_time_lim *timebox);
-void			error_msg(void);
+int		cx_number(char **av);
+int		atoi_philo(char *str);
+int		cx_data(int ac, char **av, t_tlim	 *timebox);
+int		cx_zero(t_tlim	 *timebox);
+void	error_msg(void);
 
 // init_data
-void			add_init_data(t_data *philo, t_forkinfo *fork, t_time_lim *timebox);
-t_data			*init_philo(t_data *philo, t_forkinfo *fork, t_time_lim *timebox);
-t_forkinfo		*create_fork(t_forkinfo *fork, t_time_lim *timebox);
-t_forkinfo		*destroy_fork(t_forkinfo *fork, t_time_lim *timebox);
-t_data			*destroy_philo(t_data *philo, t_time_lim *timebox);
+void	add_init_data(t_data *philo, t_finfo *fork, t_tlim	 *timebox);
+t_data	*init_philo(t_data *philo, t_finfo *fork, t_tlim	 *timebox);
+t_finfo	*create_fork(t_finfo *fork, t_tlim *timebox);
+t_finfo	*destroy_fork(t_finfo *fork, t_tlim *timebox);
+t_data	*destroy_philo(t_data *philo, t_tlim	 *timebox);
 
 // routine_1
-void			*routine(t_data *phi);
-int				pick_fork_eat(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
-int				pickfork_eat_normal(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
-int				pickfork_eat_lastodd(t_data *phi, t_time_lim *tcond, t_forkinfo *fork);
+void	*routine(t_data *phi);
+int		pick_fork_eat(t_data *phi, t_tlim *tcond, t_finfo *fork);
+int		pickfork_eat_normal(t_data *phi, t_tlim	 *tcond, t_finfo *fork);
+int		pickfork_eat_lastodd(t_data *phi, t_tlim *tcond, t_finfo *fork);
 
 // routine_2
-void			philo_wait(t_data *phi, t_forkinfo *fork);
-int				printing(t_data *phi, char *str, int killmode);
+void	philo_wait(t_data *phi, t_finfo *fork);
+int		printing(t_data *phi, char *str, int killmode);
 
 // routine_3
-void			fork_down(t_data *phi, t_forkinfo *fork);
+void	fork_down(t_data *phi, t_finfo *fork);
 
 // time.c
-long			get_utime(void);
-void			my_usleep(long usec);
+long	get_utime(void);
+void	my_usleep(long usec, long eat);
 
 // utils_1
-void			assign_fork(t_data *philo, t_time_lim *timebox);
-long			addtag_philo(int id, int max);
+void	assign_fork(t_data *philo, t_tlim *timebox);
+long	addtag_philo(int id, int max);
 
 #endif

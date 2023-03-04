@@ -6,20 +6,20 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:43:31 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/03 19:51:02 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:59:52 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	cx_dead_philo(t_data *philo, t_time_lim *tcond)
+void	cx_dead_philo(t_data *philo, t_tlim *tcond)
 {
-	t_forkinfo	*fork;
+	t_finfo	*fork;
 	int			i;
-	long		tmp;
+	long		timedie;
 
 	fork = philo[0].fork;
-	my_usleep(tcond->die / 2);
+	usleep(tcond->die / 2);
 	while (fork->die_stat == 0)
 	{
 		i = 0;
@@ -27,25 +27,22 @@ void	cx_dead_philo(t_data *philo, t_time_lim *tcond)
 		{
 			usleep(500);
 			pthread_mutex_lock(&(fork->lock));
-			if ((philo[i].timedie) <= get_utime())
+			
+			if ((philo[i].timeeat + tcond->die) <= get_utime())
 			{
-				if (philo[i].no_ate != tcond->no_eat)
-				{
-					printing(&philo[i], "\033[0;31mdied\033[0m", 1);
-					fork_down(&philo[i], fork);
-					pthread_mutex_unlock(&(fork->lock));
-					break ;
-				}
+				// if (philo[i].no_ate != tcond->no_eat)
+				printing(&philo[i], "\033[0;31mdied\033[0m", 1);
+				fork_down(&philo[i], fork);
+				pthread_mutex_unlock(&(fork->lock));
+				break ;
 			}
 			pthread_mutex_unlock(&(fork->lock));
 			i++;
 		}
-
 	}
-	
 }
 
-int	create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox)
+int	create_thread(pthread_t *phi_th, t_data *philo, t_tlim *timebox)
 {
 	int	i;
 
@@ -63,7 +60,7 @@ int	create_thread(pthread_t *phi_th, t_data *philo, t_time_lim *timebox)
 	return (0);
 }
 
-t_data	*process(t_data *philo, t_time_lim *timebox)
+t_data	*process(t_data *philo, t_tlim *timebox)
 {
 	int			i;
 	pthread_t	*phi_th;
@@ -85,9 +82,9 @@ t_data	*process(t_data *philo, t_time_lim *timebox)
 	return (NULL);
 }
 
-void	sub_main(int ac, char **av, t_time_lim *timebox)
+void	sub_main(int ac, char **av, t_tlim *timebox)
 {
-	t_forkinfo	*fork;
+	t_finfo	*fork;
 	t_data		*group_philo;
 
 	if (cx_data(ac, av, timebox))
@@ -109,10 +106,10 @@ void	sub_main(int ac, char **av, t_time_lim *timebox)
 
 int	main(int ac, char **av)
 {
-	t_time_lim	*timebox;
-	t_forkinfo	*fork;
+	t_tlim	*timebox;
+	t_finfo	*fork;
 
-	timebox = (t_time_lim *)malloc(sizeof(t_time_lim));
+	timebox = (t_tlim *)malloc(sizeof(t_tlim));
 	if (!timebox)
 		return (0);
 	if (ac == 5 || ac == 6)

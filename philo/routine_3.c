@@ -6,13 +6,13 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:09:23 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/03 17:57:59 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:07:49 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	fork_down(t_data *phi, t_forkinfo *fork)
+void	fork_down(t_data *phi, t_finfo *fork)
 {
 	// if (phi->right_stat == 1)
 	// 	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
