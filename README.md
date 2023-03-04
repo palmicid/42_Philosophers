@@ -1,2 +1,4 @@
 # 42_Philosophers
-I never thought philosophy would be so deadly
+
+#### for timebox I just feel it too long so I change to tcond midway XD 
+#### and yes I'm too lazy to change the first part.

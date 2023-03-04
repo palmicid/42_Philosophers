@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 17:32:22 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 13:26:22 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:12:11 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 long	get_utime(void)
 {
 	struct timeval	time;
-	long	longtime;
+	long			longtime;
 
 	gettimeofday(&time, NULL);
 	longtime = (time.tv_sec * 1000000) + time.tv_usec;
@@ -28,6 +28,6 @@ void	my_usleep(long usec, long eat)
 
 	wakeup = eat + usec;
 	while (get_utime() <= wakeup)
-		;
+		usleep(200);
 	return ;
 }

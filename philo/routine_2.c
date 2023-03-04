@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 16:37:04 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 13:05:25 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:11:33 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ int	printing(t_data *phi, char *str, int killmode)
 		return (0);
 }
 
-
+void	fork_down(t_data *phi, t_finfo *fork)
+{
+	pthread_mutex_unlock(&(fork->fmutex[phi->num_r]));
+	pthread_mutex_unlock(&(fork->fmutex[phi->num_l]));
+	pthread_mutex_unlock(&(fork->writing));
+	pthread_mutex_unlock(&(fork->lock));
+	return ;
+}

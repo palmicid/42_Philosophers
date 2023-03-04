@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 14:43:31 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 13:59:52 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:29:58 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	cx_dead_philo(t_data *philo, t_tlim *tcond)
 {
 	t_finfo	*fork;
-	int			i;
-	long		timedie;
+	int		i;
 
 	fork = philo[0].fork;
 	usleep(tcond->die / 2);
@@ -27,10 +26,8 @@ void	cx_dead_philo(t_data *philo, t_tlim *tcond)
 		{
 			usleep(500);
 			pthread_mutex_lock(&(fork->lock));
-			
-			if ((philo[i].timeeat + tcond->die) <= get_utime())
+			if ((philo[i].timeeat + tcond->die + 2000) <= get_utime())
 			{
-				// if (philo[i].no_ate != tcond->no_eat)
 				printing(&philo[i], "\033[0;31mdied\033[0m", 1);
 				fork_down(&philo[i], fork);
 				pthread_mutex_unlock(&(fork->lock));
@@ -84,8 +81,8 @@ t_data	*process(t_data *philo, t_tlim *timebox)
 
 void	sub_main(int ac, char **av, t_tlim *timebox)
 {
-	t_finfo	*fork;
-	t_data		*group_philo;
+	t_finfo	*fork = NULL;
+	t_data	*group_philo = NULL;
 
 	if (cx_data(ac, av, timebox))
 	{
@@ -107,7 +104,6 @@ void	sub_main(int ac, char **av, t_tlim *timebox)
 int	main(int ac, char **av)
 {
 	t_tlim	*timebox;
-	t_finfo	*fork;
 
 	timebox = (t_tlim *)malloc(sizeof(t_tlim));
 	if (!timebox)

@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 20:07:30 by pruangde          #+#    #+#             */
-/*   Updated: 2023/03/04 14:03:19 by pruangde         ###   ########.fr       */
+/*   Updated: 2023/03/04 15:13:43 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ void	*routine(t_data *phi)
 	while ((phi->no_ate != phi->timelimit->no_eat) && !(fork->die_stat))
 	{
 		if (pick_fork_eat(phi, tcond, fork))
-			break;
+			break ;
 		printing(phi, "\033[0;34mis sleeping\033[0m", 0);
 		my_usleep(tcond->slp + tcond->eat, phi->timeeat);
 		printing(phi, "\033[0;33mis thinking\033[0m", 0);
-		//usleep(50);
 	}
 	fork_down(phi, fork);
 	fork->die_stat = 1;
