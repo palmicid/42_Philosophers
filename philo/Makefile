@@ -6,7 +6,7 @@
 #    By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/17 12:37:19 by pruangde          #+#    #+#              #
-#    Updated: 2023/03/04 15:44:05 by pruangde         ###   ########.fr        #
+#    Updated: 2023/03/07 18:13:37 by pruangde         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(ADDITIONAL) $(OBJS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(ADDITIONAL) -c $< -o $@
@@ -44,15 +44,15 @@ fclean: clean
 
 re: fclean all
 
-test:
-	$(CC) maintest.c $(NAME)
-	#valgrind --vgdb=no --leak-check=full --show-leak-kinds=all ./a.out
+#test:
+#	$(CC) maintest.c $(NAME)
+#	#valgrind --vgdb=no --leak-check=full --show-leak-kinds=all ./a.out
 
-leak:
-	leaks --atExit -- ./a.out
+#leak:
+#	leaks --atExit -- ./a.out
 
-san:
-	$(CC) -fsanitize=address -fno-omit-frame-pointer maintest.c
+#san:
+#	$(CC) -fsanitize=address -fno-omit-frame-pointer maintest.c
 
 norm:
 	@echo "------------------------------------"
